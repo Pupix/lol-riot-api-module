@@ -22,8 +22,8 @@
         "url": "https://github.com/Pupix/lol-riot-api-module/issues"
     },
     "dependencies": {
-        "expandjs": "^0.8.0",
-        "xp-request": "^0.8.0"
+        "expandjs": "^0.9.0",
+        "xp-request": "^0.9.0"
     },
     "keywords": [
         "api",
