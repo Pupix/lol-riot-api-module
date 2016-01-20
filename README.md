@@ -97,6 +97,12 @@ Whenever possible, if a configuration *object* (referred as `opt` in the documen
 * [getChampions](#getChampions)
 * [getChampionById](#getChampionById)
 
+**ChampionMastery**
+* [getChampionMastery](#getChampionMastery)
+* [getChampionMasteryById](#getChampionMasteryById)
+* [getChampionMasteryScore](#getChampionMasteryScore)
+* [getChampionMasteryTop](#getChampionMasteryTop)
+
 **Current game**
 * [getCurrentGameBySummonerId](#getCurrentGameBySummonerId)
 
@@ -138,8 +144,8 @@ Whenever possible, if a configuration *object* (referred as `opt` in the documen
 **Match**
 * [getMatchById](#getMatchById)
 
-**Match history**
-* [getMatchHistoryBySummonerId](#getMatchHistoryBySummonerId)
+**Match list**
+* [getMatchListBySummonerId](#getMatchListBySummonerId)
 
 **Stats**
 * [getRankedStatsBySummonerId](#getRankedStatsBySummonerId)
@@ -182,6 +188,68 @@ Retrieve champion by ID.
 
 1. **opt {Object}**
     * **opt.id {string | number}** ID of the champion to retrieve.
+    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
+    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
+2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+---------------------------------------
+
+<a name="getChampionMastery" />
+### getChampionMastery(opt, callback)
+
+Gets all champion mastery entries of a summoner.
+
+**Parameters**
+
+1. **[opt] {Object}**
+    * **opt.id {string | number}** The ID of the summoner.
+    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
+    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
+2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+---------------------------------------
+
+<a name="getChampionMasteryById" />
+### getChampionMasteryById(opt, callback)
+
+Gets the champion mastery entry of a champion for a summoner.
+
+**Parameters**
+
+1. **[opt] {Object}**
+    * **opt.id {string | number}** The ID of the summoner.
+    * **opt.champId {string | number}** The ID of the champion to retrieve.
+    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
+    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
+2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+---------------------------------------
+
+<a name="getChampionMasteryScore" />
+### getChampionMasteryScore(opt, callback)
+
+Gets the total champion mastery score of a summoner.
+
+**Parameters**
+
+1. **[opt] {Object}**
+    * **opt.id {string | number}** The ID of the summoner.
+    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
+    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
+2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+---------------------------------------
+
+<a name="getChampionMasteryTop" />
+### getChampionMasteryTop(opt, callback)
+
+Gets a specified number of top champion mastery entries of a summoner.
+
+**Parameters**
+
+1. **[opt] {Object}**
+    * **opt.id {string | number}** The ID of the summoner.
+    * **[opt.count = 3] {string | number}** The number of entries to retrieve.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
     * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
 2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
@@ -625,8 +693,8 @@ Retrieve match by match ID.
 
 ---------------------------------------
 
-<a name="getMatchHistoryBySummonerId" />
-### getMatchHistoryBySummonerId(opt, callback)
+<a name="getMatchListBySummonerId" />
+### getMatchListBySummonerId(opt, callback)
 
 Retrieve match history by summoner ID.
 
@@ -637,6 +705,8 @@ Retrieve match history by summoner ID.
     * **[opt.championIds] {Array | number | string}** Comma-separated list of champion IDs to use for fetching games.
     * **[opt.rankedQueues] {Array | string}** Comma-separated list of ranked queue types to use for fetching games. Non-ranked queue types will be ignored.
 		* Possible values: *"RANKED_SOLO_5x5" | "RANKED_SOLO_3x3" | "RANKED_SOLO_5x5"* 
+    * **[opt.beginTime] {number | string}** The begin time to use for fetching games specified as epoch milliseconds.
+    * **[opt.endTime] {number | string}** The end time to use for fetching games specified as epoch milliseconds.
     * **[opt.beginIndex] {number | string}** The begin index to use for fetching games.
     * **[opt.endIndex] {number | string}** The end index to use for fetching games.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
