@@ -17,15 +17,15 @@ var API = require('lol-riot-api-module'),
         key: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         region: 'euw'
     });
-    
+
 ```
 
 ### Using callbacks
 ```js
     var opt = {};
-    opt.names = 'Pupix';
+    opt.Name = 'Pupix';
 
-    api.getSummonersByNames(opt, function (err, data) {
+    api.getSummonersByName(opt, function (err, data) {
         console.log(data);
     });
     //=>{
@@ -42,9 +42,9 @@ var API = require('lol-riot-api-module'),
 ### Using promises
 ```js
     var opt = {};
-    opt.names = ['Pupix', 'Epidal'];
+    opt.Name = ['Pupix', 'Epidal'];
 
-    api.getSummonersByNames(opt).then(function (data) {
+    api.getSummonersByName(opt).then(function (data) {
         console.log(data);
     });
     //=>{
@@ -76,35 +76,31 @@ The possible *regions* are the following:
 - **br** (Brazil)
 - **eune** (Europe North-East)
 - **euw** (Europe West)
+- **jp** (Japan)
 - **kr** (Korean)
 - **lan** (Latin America North)
 - **las** (Latin America South)
 - **na** (North America)
 - **oce** (Oceania)
-- **tr** (Turkish)
 - **ru** (Russia)
+- **tr** (Turkish)
 - **pbe** (Public Beta Environment)
 
 ## Documentation
 
-All methods except **getStatus** and **getStatusByRegion** allow you to set `apiKey` and `region` to change the request's *region* or *key* on the fly without having to instantiate different APIs for different regions or API keys.
+All methods except **getStatus** allow you to set `apiKey` and `region` to change the request's *region* or *key* on the fly without having to instantiate different APIs for different regions or API keys.
 
 Whenever possible, if a configuration *object* (referred as `opt` in the documentation) is not required the `callback` can be passed directly as first parameter to all methods.
 
 ### Methods
 
-**Champion**
-* [getChampions](#getChampions)
-* [getChampionById](#getChampionById)
-
 **ChampionMastery**
 * [getChampionMastery](#getChampionMastery)
 * [getChampionMasteryById](#getChampionMasteryById)
 * [getChampionMasteryScore](#getChampionMasteryScore)
-* [getChampionMasteryTop](#getChampionMasteryTop)
 
-**Current game**
-* [getCurrentGameBySummonerId](#getCurrentGameBySummonerId)
+**Active game**
+* [getActiveGameBySummonerId](#getCurrentGameBySummonerId)
 
 **Featured games**
 * [getFeaturedGames](#getFeaturedGames)
@@ -113,10 +109,6 @@ Whenever possible, if a configuration *object* (referred as `opt` in the documen
 * [getRecentGamesBySummonerId](#getRecentGamesBySummonerId)
 
 **League**
-* [getLeagueBySummonerIds](#getLeagueBySummonerIds)
-* [getLeagueEntryBySummonerIds](#getLeagueEntryBySummonerIds)
-* [getLeagueByTeamIds](#getLeagueByTeamIds)
-* [getLeagueEntryByTeamIds](#getLeagueEntryByTeamIds)
 * [getChallengerLeague](#getChallengerLeague)
 * [getMasterLeague](#getMasterLeague)
 
@@ -130,6 +122,7 @@ Whenever possible, if a configuration *object* (referred as `opt` in the documen
 * [getMaps](#getMaps)
 * [getMasteryData](#getMasteryData)
 * [getMasteryDataById](#getMasteryDataById)
+* [getProfileIcons](#getProfileIcons)
 * [getRealms](#getRealms)
 * [getRuneData](#getRuneData)
 * [getRuneDataById](#getRuneDataById)
@@ -139,7 +132,6 @@ Whenever possible, if a configuration *object* (referred as `opt` in the documen
 
 **Status**
 * [getStatus](#getStatus)
-* [getStatusByRegion](#getStatusByRegion)
 
 **Match**
 * [getMatchById](#getMatchById)
@@ -147,50 +139,12 @@ Whenever possible, if a configuration *object* (referred as `opt` in the documen
 **Match list**
 * [getMatchListBySummonerId](#getMatchListBySummonerId)
 
-**Stats**
-* [getRankedStatsBySummonerId](#getRankedStatsBySummonerId)
-* [getStatsSummaryBySummonerId](#getStatsSummaryBySummonerId)
-
 **Summoner**
-* [getSummonersByNames](#getSummonersByNames)
-* [getSummonersByIds](#getSummonersByIds)
-* [getMasteriesBySummonerIds](#getMasteriesBySummonerIds)
-* [getSummonerNamesByIds](#getSummonerNamesByIds)
+* [getSummonersByName](#getSummonersByName)
+* [getSummonersById](#getSummonersById)
+* [getMasteriesBySummonerId](#getMasteriesBySummonerId)
+* [getSummonerNameById](#getSummonerNameById)
 * [getRunesBySummonerId](#getRunesBySummonerId)
-
-**Team**
-* [getTeamsBySummonerIds](#getTeamsBySummonerIds)
-* [getTeamsByIds](#getTeamsByIds)
-
----------------------------------------
-
-<a name="getChampions" />
-### getChampions(opt, callback)
-
-Retrieve all champions.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **[opt.freeToPlay] {boolean}** Optional filter param to retrieve only free to play champions.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getChampionById" />
-### getChampionById(opt, callback)
-
-Retrieve champion by ID.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.id {string | number}** ID of the champion to retrieve.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
@@ -240,24 +194,8 @@ Gets the total champion mastery score of a summoner.
 
 ---------------------------------------
 
-<a name="getChampionMasteryTop" />
-### getChampionMasteryTop(opt, callback)
-
-Gets a specified number of top champion mastery entries of a summoner.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **opt.id {string | number}** The ID of the summoner.
-    * **[opt.count = 3] {string | number}** The number of entries to retrieve.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getCurrentGameBySummonerId" />
-### getCurrentGameBySummonerId(opt, callback)
+<a name="getActiveGameBySummonerId" />
+### getActiveGameBySummonerId(opt, callback)
 
 Get current game information for the given summoner ID.
 
@@ -294,66 +232,6 @@ Get list of featured games.
 
 1. **opt {Object}**
     * **opt.id {string | number}** ID of the summoner for which to retrieve recent games.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getLeagueBySummonerIds" />
-### getLeagueBySummonerIds(opt, callback)
-
-Get leagues mapped by summoner ID for a given list of summoner IDs.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.ids {number | string | Array}** Comma-separated list of summoner IDs. Maximum allowed at once is 10.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getLeagueEntryBySummonerIds" />
-### getLeagueEntryBySummonerIds(opt, callback)
-
-Get league entries mapped by summoner ID for a given list of summoner IDs.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.ids {number | string | Array}** Comma-separated list of summoner IDs. Maximum allowed at once is 10.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getLeagueByTeamIds" />
-### getLeagueByTeamIds(opt, callback)
-
-Get league entries mapped by team ID for a given list of team IDs.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.ids {number | string | Array}** Comma-separated list of team IDs. Maximum allowed at once is 10.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getLeagueEntryByTeamIds" />
-### getLeagueEntryByTeamIds(opt, callback)
-
-Get league entries mapped by team ID for a given list of team IDs.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.ids {number | string | Array}** Comma-separated list of team IDs. Maximum allowed at once is 10.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
     * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
 2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
@@ -402,7 +280,7 @@ Retrieves champion list.
 1. **[opt] {Object}**
     * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
     * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.dataById] {boolean}** If specified, the returned data map will use the champions' IDs as the keys. If not specified or specified as false, the returned data map will use the champions' keys instead.
+    * **[opt.dataById] {boolean}** If specified, the returned data map will use the champions' Id as the keys. If not specified or specified as false, the returned data map will use the champions' keys instead.
     * **[opt.champData] {Array | string}** Tags to return additional data. Only type, version, data, id, key, name, and title are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
         * Possible values: *"all" | "allytips" | "altimages" | "blurb" | "enemytips" | "image" | "info" | "lore" | "partype" | "passive" | "recommended" | "skins" | "spells" | "stats" | "tags"*
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
@@ -611,7 +489,7 @@ Retrieves summoner spell list.
 1. **[opt] {Object}**
     * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
     * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.dataById] {boolean}** If specified as true, the returned data map will use the spells' IDs as the keys. If not specified or specified as false, the returned data map will use the spells' keys instead.
+    * **[opt.dataById] {boolean}** If specified as true, the returned data map will use the spells' Id as the keys. If not specified or specified as false, the returned data map will use the spells' keys instead.
     * **[opt.spellData] {Array | string}** Tags to return additional data. Only type, version, data, id, key, name, description, and summonerLevel are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
         * Possible values: *"all" | "cooldown" | "cooldownBurn" | "cost" | "costBurn" | "costType" | "effect" | "effectBurn" | "image" | "key" | "leveltip" | "maxrank" | "modes" | "range" | "rangeBurn" | "resource" | "sanitizedDescription" | "sanitizedTooltip" | "tooltip" | "vars"*
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
@@ -664,19 +542,6 @@ Get shard list.
 
 ---------------------------------------
 
-<a name="getStatusByRegion" />
-### getStatusByRegion(opt, callback)
-
-Get shard status. Returns the data available on the status.leagueoflegends.com website for the given region.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
 <a name="getMatchById" />
 ### getMatchById(opt, callback)
 
@@ -702,9 +567,9 @@ Retrieve match history by summoner ID.
 
 1. **opt {Object}**
     * **opt.id {number | string}** - The ID of the summoner.
-    * **[opt.championIds] {Array | number | string}** Comma-separated list of champion IDs to use for fetching games.
+    * **[opt.championId] {Array | number | string}** Comma-separated list of champion Id to use for fetching games.
     * **[opt.rankedQueues] {Array | string}** Comma-separated list of ranked queue types to use for fetching games. Non-ranked queue types will be ignored.
-		* Possible values: *"RANKED_SOLO_5x5" | "RANKED_SOLO_3x3" | "RANKED_SOLO_5x5"* 
+		* Possible values: *"RANKED_SOLO_5x5" | "RANKED_SOLO_3x3" | "RANKED_SOLO_5x5"*
     * **[opt.beginTime] {number | string}** The begin time to use for fetching games specified as epoch milliseconds.
     * **[opt.endTime] {number | string}** The end time to use for fetching games specified as epoch milliseconds.
     * **[opt.beginIndex] {number | string}** The begin index to use for fetching games.
@@ -715,139 +580,75 @@ Retrieve match history by summoner ID.
 
 ---------------------------------------
 
-<a name="getRankedStatsBySummonerId" />
-### getRankedStatsBySummonerId(opt, callback)
+<a name="getSummonersByName" />
+### getSummonersByName(opt, callback)
 
-Get ranked stats by summoner ID.
+Get summoner objects mapped by standardized summoner name for a given list of summoner Name.
 
 **Parameters**
 
 1. **opt {Object}**
-    * **opt.id {number | string}** - ID of the summoner for which to retrieve ranked stats.
-    * **[opt.season] {string}** If specified, stats for the given season are returned. Otherwise, stats for the current season are returned.
-		* Possible values: *"SEASON3" | "SEASON2014" | "SEASON2015"*
+    * **opt.Name {Array | string}** - Comma-separated list of summoner Name or standardized summoner Name associated with summoners to retrieve. Maximum allowed at once is 40.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
     * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
 2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
-<a name="getStatsSummaryBySummonerId" />
-### getStatsSummaryBySummonerId(opt, callback)
+<a name="getSummonersById" />
+### getSummonersById(opt, callback)
 
-Get player stats summaries by summoner ID.
+Get summoner objects mapped by summoner ID for a given list of summoner Id.
 
 **Parameters**
 
 1. **opt {Object}**
-    * **opt.id {number | string}** - ID of the summoner for which to retrieve player stats.
-    * **[opt.season] {string}** If specified, stats for the given season are returned. Otherwise, stats for the current season are returned.
-		* Possible values: *"SEASON3" | "SEASON2014" | "SEASON2015"*
+    * **opt.Name {Array | number | string}** - Comma-separated list of summoner Id associated with summoners to retrieve. Maximum allowed at once is 40.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
     * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
 2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
-<a name="getSummonersByNames" />
-### getSummonersByNames(opt, callback)
+<a name="getMasteriesBySummonerId" />
+### getMasteriesBySummonerId(opt, callback)
 
-Get summoner objects mapped by standardized summoner name for a given list of summoner names.
+Get mastery pages mapped by summoner ID for a given list of summoner Id.
 
 **Parameters**
 
 1. **opt {Object}**
-    * **opt.names {Array | string}** - Comma-separated list of summoner names or standardized summoner names associated with summoners to retrieve. Maximum allowed at once is 40.
+    * **opt.Id {Array | number | string}** - Comma-separated list of summoner Id associated with masteries to retrieve. Maximum allowed at once is 40.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
     * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
 2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
-<a name="getSummonersByIds" />
-### getSummonersByIds(opt, callback)
+<a name="getSummonerNameById" />
+### getSummonerNameById(opt, callback)
 
-Get summoner objects mapped by summoner ID for a given list of summoner IDs.
+Get summoner Name mapped by summoner ID for a given list of summoner Id.
 
 **Parameters**
 
 1. **opt {Object}**
-    * **opt.names {Array | number | string}** - Comma-separated list of summoner IDs associated with summoners to retrieve. Maximum allowed at once is 40.
+    * **opt.Id {Array | number | string}** - Comma-separated list of summoner Id associated with summoner Name to retrieve. Maximum allowed at once is 40.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
     * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
 2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
-<a name="getMasteriesBySummonerIds" />
-### getMasteriesBySummonerIds(opt, callback)
+<a name="getRunesBySummonerId" />
+### getRunesBySummonerId(opt, callback)
 
-Get mastery pages mapped by summoner ID for a given list of summoner IDs.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.ids {Array | number | string}** - Comma-separated list of summoner IDs associated with masteries to retrieve. Maximum allowed at once is 40.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getSummonerNamesByIds" />
-### getSummonerNamesByIds(opt, callback)
-
-Get summoner names mapped by summoner ID for a given list of summoner IDs.
+Get rune pages mapped by summoner ID for a given list of summoner Id.
 
 **Parameters**
 
 1. **opt {Object}**
-    * **opt.ids {Array | number | string}** - Comma-separated list of summoner IDs associated with summoner names to retrieve. Maximum allowed at once is 40.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getRunesBySummonerIds" />
-### getRunesBySummonerIds(opt, callback)
-
-Get rune pages mapped by summoner ID for a given list of summoner IDs.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.ids {Array | number | string}** - Comma-separated list of summoner IDs associated with runes to retrieve. Maximum allowed at once is 40.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getTeamsBySummonerIds" />
-### getTeamsBySummonerIds(opt, callback)
-
-Get teams mapped by summoner ID for a given list of summoner IDs.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.ids {Array | number | string}** - Comma-separated list of summoner IDs. Maximum allowed at once is 10.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getTeamsByIds" />
-### getTeamsByIds(opt, callback)
-
-Get teams mapped by team ID for a given list of team IDs.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.ids {Array | number | string}** - Comma-separated list of team IDs. Maximum allowed at once is 10.
+    * **opt.Id {Array | number | string}** - Comma-separated list of summoner Id associated with runes to retrieve. Maximum allowed at once is 40.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
     * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
 2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
