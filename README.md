@@ -106,7 +106,7 @@ Whenever possible, if a configuration *object* (referred as `opt` in the documen
 * [getFeaturedGames](#getFeaturedGames)
 
 **Game**
-* [getRecentGamesBySummonerId](#getRecentGamesBySummonerId)
+* [getRecentGamesByAccountId](#getRecentGamesByAccountId)
 
 **League**
 * [getChallengerLeague](#getChallengerLeague)
@@ -137,11 +137,12 @@ Whenever possible, if a configuration *object* (referred as `opt` in the documen
 * [getMatchById](#getMatchById)
 
 **Match list**
-* [getMatchListBySummonerId](#getMatchListBySummonerId)
+* [getMatchListByAccountId](#getMatchListByAccountId)
 
 **Summoner**
 * [getSummonersByName](#getSummonersByName)
-* [getSummonersById](#getSummonersById)
+* [getSummonerByAccountId](#getSummonerByAccountId)
+* [getSummonerById](#getSummonerById)
 * [getMasteriesBySummonerId](#getMasteriesBySummonerId)
 * [getSummonerNameById](#getSummonerNameById)
 * [getRunesBySummonerId](#getRunesBySummonerId)
@@ -223,15 +224,15 @@ Get list of featured games.
 
 ---------------------------------------
 
-<a name="getRecentGamesBySummonerId" />
-### getRecentGamesBySummonerId(opt, callback)
+<a name="getRecentGamesByAccountId" />
+### getRecentGamesByAccountId(opt, callback)
 
-Get list of featured games.
+Get list of recent games by account id.
 
 **Parameters**
 
 1. **opt {Object}**
-    * **opt.id {string | number}** ID of the summoner for which to retrieve recent games.
+    * **opt.id {string | number}** ID of the account for which to retrieve recent games.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
     * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
 2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
@@ -558,15 +559,15 @@ Retrieve match by match ID.
 
 ---------------------------------------
 
-<a name="getMatchListBySummonerId" />
-### getMatchListBySummonerId(opt, callback)
+<a name="getMatchListByAccountId" />
+### getMatchListByAccountId(opt, callback)
 
-Retrieve match history by summoner ID.
+Retrieve match history by account id.
 
 **Parameters**
 
 1. **opt {Object}**
-    * **opt.id {number | string}** - The ID of the summoner.
+    * **opt.id {number | string}** - The account id of the summoner.
     * **[opt.championId] {Array | number | string}** Comma-separated list of champion Id to use for fetching games.
     * **[opt.rankedQueues] {Array | string}** Comma-separated list of ranked queue types to use for fetching games. Non-ranked queue types will be ignored.
 		* Possible values: *"RANKED_SOLO_5x5" | "RANKED_SOLO_3x3" | "RANKED_SOLO_5x5"*
@@ -595,15 +596,15 @@ Get summoner objects mapped by standardized summoner name for a given list of su
 
 ---------------------------------------
 
-<a name="getSummonersById" />
-### getSummonersById(opt, callback)
+<a name="getSummonerByAccountId" />
+### getSummonerByAccountId(opt, callback)
 
-Get summoner objects mapped by summoner ID for a given list of summoner Id.
+Get summoner objects mapped by account id for a given list of summoner Id.
 
 **Parameters**
 
 1. **opt {Object}**
-    * **opt.Name {Array | number | string}** - Comma-separated list of summoner Id associated with summoners to retrieve. Maximum allowed at once is 40.
+    * **opt.Name {Array | number | string}** - Comma-separated list of account Id associated with summoners to retrieve. Maximum allowed at once is 40.
     * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
     * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
 2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
