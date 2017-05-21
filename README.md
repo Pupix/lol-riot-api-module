@@ -86,7 +86,7 @@ Whenever possible, if a configuration *object* (referred as `options` in the doc
 * [getAccountRecentMatchlist](#getAccountRecentMatchlist)
 
 **Champions**
-* [getChampionsStatus](#getChampions)
+* [getChampionsStatus](#getChampionsStatus)
 
 **Featured games**
 * [getFeaturedGames](#getFeaturedGames)
