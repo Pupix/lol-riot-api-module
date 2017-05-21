@@ -12,8 +12,8 @@ lol-riot-api is installable via:
 
 ## Quick example
 ```js
-var API = require('lol-riot-api-module'),
-    api = new API({
+const API = require('lol-riot-api-module');
+const api = new API({
         key: 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         region: 'euw'
     });
@@ -22,47 +22,36 @@ var API = require('lol-riot-api-module'),
 
 ### Using callbacks
 ```js
-    var opt = {};
-    opt.Name = 'Pupix';
 
-    api.getSummonersByName(opt, function (err, data) {
+    const options = { name: 'Pupix' };
+
+    api.getSummonerByName(options, (err, data) => {
         console.log(data);
     });
-    //=>{
-            "pupix": {
-                "id": 20920441,
-                "name": "Pupix",
-                "profileIconId": 580,
-                "summonerLevel": 30,
-                "revisionDate": 1431200284000
-            }
-        }
+    //=> {
+             "id": 20920441,
+             "name": "Pupix",
+             "profileIconId": 580,
+             "summonerLevel": 30,
+             "revisionDate": 1431200284000
+         }
 ```
 
 ### Using promises
 ```js
-    var opt = {};
-    opt.Name = ['Pupix', 'Epidal'];
 
-    api.getSummonersByName(opt).then(function (data) {
+    const options = { name: 'Pupix' };
+
+    api.getSummonerByName(options).then(data => {
         console.log(data);
     });
-    //=>{
-            "pupix": {
-                "id": 20920441,
-                "name": 'Pupix',
-                "profileIconId": 580,
-                "summonerLevel": 30,
-                "revisionDate": 1431200284000
-            },
-            "epidal": {
-                "id": 21027916,
-                "name": 'Epidal',
-                "profileIconId": 558,
-                "summonerLevel": 30,
-                "revisionDate": 1430273630000
-            }
-        }
+    //=> {
+             "id": 20920441,
+             "name": 'Pupix',
+             "profileIconId": 580,
+             "summonerLevel": 30,
+             "revisionDate": 1431200284000
+         }
 ```
 
 ## Getting started
@@ -88,568 +77,488 @@ The possible *regions* are the following:
 
 ## Documentation
 
-All methods except **getStatus** allow you to set `apiKey` and `region` to change the request's *region* or *key* on the fly without having to instantiate different APIs for different regions or API keys.
-
-Whenever possible, if a configuration *object* (referred as `opt` in the documentation) is not required the `callback` can be passed directly as first parameter to all methods.
+Whenever possible, if a configuration *object* (referred as `options` in the documentation) is not required the `callback` can be passed directly as first parameter to all methods.
 
 ### Methods
 
-**ChampionMastery**
-* [getChampionMastery](#getChampionMastery)
-* [getChampionMasteryById](#getChampionMasteryById)
-* [getChampionMasteryScore](#getChampionMasteryScore)
+**Account**
+* [getAccountMatchlist](#getAccountMatchlist)
+* [getAccountRecentMatchlist](#getAccountRecentMatchlist)
 
-**Active game**
-* [getActiveGameBySummonerId](#getCurrentGameBySummonerId)
+**Champions**
+* [getChampionsStatus](#getChampions)
 
 **Featured games**
 * [getFeaturedGames](#getFeaturedGames)
 
-**Game**
-* [getRecentGamesByAccountId](#getRecentGamesByAccountId)
-
-**League**
+**Leagues**
 * [getChallengerLeague](#getChallengerLeague)
 * [getMasterLeague](#getMasterLeague)
 
+**Matches**
+* [getMatch](#getMatch)
+* [getMatchTimeline](#getMatchTimeline)
+
 **Static data**
-* [getChampionData](#getChampionData)
-* [getChampionDataById](#getChampionDataById)
-* [getItemData](#getItemData)
-* [getItemDataById](#getItemDataById)
-* [getLanguageStrings](#getLanguageStrings)
-* [getLanguages](#getLanguages)
-* [getMaps](#getMaps)
-* [getMasteryData](#getMasteryData)
-* [getMasteryDataById](#getMasteryDataById)
-* [getProfileIcons](#getProfileIcons)
-* [getRealms](#getRealms)
-* [getRuneData](#getRuneData)
-* [getRuneDataById](#getRuneDataById)
-* [getSummonerSpellData](#getSummonerSpellData)
-* [getSummonerSpellDataById](#getSummonerSpellDataById)
-* [getVersions](#getVersions)
+* [getChampionsStaticData](#getChampionsStaticData)
+* [getItemsStaticData](#getItemsStaticData)
+* [getLanguagesStaticData](#getLanguagesStaticData)
+* [getLanguageStringsStaticData](#getLanguageStringsStaticData)
+* [getMapsStaticData](#getMapsStaticData)
+* [getMasteriesStaticData](#getMasteriesStaticData)
+* [getProfileIconsStaticData](#getProfileIconsStaticData)
+* [getRealmsStaticData](#getRealmsStaticData)
+* [getRunesStaticData](#getRunesStaticData)
+* [getSummonerSpellsStaticData](#getSummonerSpellsStaticData)
+* [getVersionsStaticData](#getVersionsStaticData)
 
 **Status**
 * [getStatus](#getStatus)
 
-**Match**
-* [getMatchById](#getMatchById)
-
-**Match list**
-* [getMatchListByAccountId](#getMatchListByAccountId)
-
 **Summoner**
-* [getSummonersByName](#getSummonersByName)
-* [getSummonerByAccountId](#getSummonerByAccountId)
-* [getSummonerById](#getSummonerById)
-* [getMasteriesBySummonerId](#getMasteriesBySummonerId)
-* [getSummonerNameById](#getSummonerNameById)
-* [getRunesBySummonerId](#getRunesBySummonerId)
+* [getSummoner](#getSummoner)
+* [getSummonerActiveGame](#getSummonerActiveGame)
+* [getSummonerChampionMastery](#getSummonerChampionMastery)
+* [getSummonerChampionMasteryScore](#getSummonerChampionMasteryScore)
+* [getSummonerLeagues](#getSummonerLeagues)
+* [getSummonerLeaguePositions](#getSummonerLeaguePositions)
+* [getSummonerMasteries](#getSummonerMasteries)
+* [getSummonerRunes](#getSummonerRunes)
 
 ---------------------------------------
 
-<a name="getChampionMastery" />
-### getChampionMastery(opt, callback)
+<a name="getAccountMatchlist" />
+### getAccountMatchlist(options, callback)
 
-Gets all champion mastery entries of a summoner.
+Get matchlist for ranked games played on given account ID and platform ID and filtered using given filter parameters, if any.
 
 **Parameters**
 
-1. **[opt] {Object}**
-    * **opt.id {string | number}** The ID of the summoner.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **options.accountId** *{number | string}* The account ID.
+ * **[options.beginIndex]** *{number | string}* The begin index to use for filtering matchlist.
+ * **[options.beginTime]** *{number | string}* The begin time to use for filtering matchlist specified as epoch milliseconds.
+ * **[options.champion]** *{Array | number | string}* Set of champion IDs for which to filtering matchlist.
+ * **[options.endIndex]** *{number | string}* The end index to use for filtering matchlist.
+ * **[options.endTime]** *{number | string}* The end time to use for filtering matchlist specified as epoch milliseconds.
+ * **[options.season]** *{Array | number | string}* Set of season IDs for which to filtering matchlist.
+ * **[options.queue]** *{Array | number | string}* Set of queue IDs for which to filtering matchlist.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getAccountRecentMatchlist" />
+### getAccountRecentMatchlist(options, callback)
+
+Get matchlist for last 20 matches played on given account ID.
+
+**Parameters**
+
+1. **options** *{Object}*
+ * **options.accountId** *{number | string}* The account ID.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
-<a name="getChampionMasteryById" />
-### getChampionMasteryById(opt, callback)
+<a name="getChampionsStatus" />
+### getChampionsStatus(options, callback)
 
-Gets the champion mastery entry of a champion for a summoner.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **opt.id {string | number}** The ID of the summoner.
-    * **opt.champId {string | number}** The ID of the champion to retrieve.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getChampionMasteryScore" />
-### getChampionMasteryScore(opt, callback)
-
-Gets the total champion mastery score of a summoner.
+Gets the status of champions.
 
 **Parameters**
 
-1. **[opt] {Object}**
-    * **opt.id {string | number}** The ID of the summoner.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getActiveGameBySummonerId" />
-### getActiveGameBySummonerId(opt, callback)
-
-Get current game information for the given summoner ID.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.id {string | number}** The ID of the summoner.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **[options.id]** *{boolean}* Optional parameter to retrieve only a specific champion.
+ * **[options.freeToPlay]** *{boolean}* Optional filter to retrieve only free to play champions.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
 <a name="getFeaturedGames" />
-### getFeaturedGames(opt, callback)
+### getFeaturedGames(options, callback)
 
 Get list of featured games.
 
 **Parameters**
 
-1. **[opt] {Object}**
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getRecentGamesByAccountId" />
-### getRecentGamesByAccountId(opt, callback)
-
-Get list of recent games by account id.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.id {string | number}** ID of the account for which to retrieve recent games.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
 <a name="getChallengerLeague" />
-### getChallengerLeague(opt, callback)
+### getChallengerLeague(options, callback)
 
-Get challenger tier leagues.
+Get the challenger league for a given queue.
 
 **Parameters**
 
-1. **[opt] {Object}**
-    * **[opt.type = "RANKED_SOLO_5x5"] {string}** Game queue type.
-        * Possible values: *"RANKED_SOLO_5x5" | "RANKED_TEAM_3x3" | "RANKED_TEAM_5x5"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **[options.queue = "RANKED_SOLO_5x5"]** *{string}* Game queue type.
+     * Possible values: *"RANKED_SOLO_5x5" | "RANKED_FLEX_SR" | "RANKED_FLEX_TT"*
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
----------------------------------------
 
 <a name="getMasterLeague" />
-### getMasterLeague(opt, callback)
+### getMasterLeague(options, callback)
 
-Get master tier leagues.
+Get the master league for a given queue.
 
 **Parameters**
 
-1. **[opt] {Object}**
-    * **[opt.type = "RANKED_SOLO_5x5"] {string}** Game queue type.
-        * Possible values: *"RANKED_SOLO_5x5" | "RANKED_TEAM_3x3" | "RANKED_TEAM_5x5"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **[options.queue = "RANKED_SOLO_5x5"]** *{string}* Game queue type.
+     * Possible values: *"RANKED_SOLO_5x5" | "RANKED_FLEX_SR" | "RANKED_FLEX_TT"*
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
-<a name="getChampionData" />
-### getChampionData(opt, callback)
+<a name="getMatch" />
+### getMatch(options, callback)
 
-Retrieves champion list.
+Get match by match ID.
 
 **Parameters**
 
-1. **[opt] {Object}**
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.dataById] {boolean}** If specified, the returned data map will use the champions' Id as the keys. If not specified or specified as false, the returned data map will use the champions' keys instead.
-    * **[opt.champData] {Array | string}** Tags to return additional data. Only type, version, data, id, key, name, and title are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
+1. **options** *{Object}*
+ * **options.id** *{number | string}* The match ID.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getMatchTimeline" />
+### getMatchTimeline(options, callback)
+
+Get match by match ID.
+
+**Parameters**
+
+1. **options** *{Object}*
+ * **options.matchId** *{number | string}* The match ID.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+---------------------------------------
+
+<a name="getChampionsStaticData" />
+### getChampionsStaticData(options, callback)
+
+Gets static data of champions.
+
+**Parameters**
+
+1. **[options]** *{Object}*
+    * **[options.id]** *{number | string}* Champion ID to retrieve.
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.dataById]** *{boolean}* If specified, the returned data map will use the champions' Id as the keys. If not specified or specified as false, the returned data map will use the champions' keys instead.
+    * **[options.champData]** *{Array | string}* Tags to return additional data. Only id, key, name, and title are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
         * Possible values: *"all" | "allytips" | "altimages" | "blurb" | "enemytips" | "image" | "info" | "lore" | "partype" | "passive" | "recommended" | "skins" | "spells" | "stats" | "tags"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
----------------------------------------
 
-<a name="getChampionDataById" />
-### getChampionDataById(opt, callback)
+<a name="getItemsStaticData" />
+### getItemsStaticData(options, callback)
 
-Retrieves a champion by its id.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.id {number | string}** - Champion ID.
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.champData] {Array | string}** Tags to return additional data. Only type, version, data, id, key, name, and title are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
-        * Possible values: *"all" | "allytips" | "altimages" | "blurb" | "enemytips" | "image" | "info" | "lore" | "partype" | "passive" | "recommended" | "skins" | "spells" | "stats" | "tags"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getItemData" />
-### getItemData(opt, callback)
-
-Retrieves item list.
+Gets static data of items.
 
 **Parameters**
 
-1. **[opt] {Object}**
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.itemListData] {Array | string}** Tags to return additional data. Only type, version, basic, data, id, name, plaintext, group, and description are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
-        * Possible values: *"all" | "colloq" | "consumeOnFull" | "consumed" | "depth" | "from" | "gold" | "groups" | "hideFromAll" | "image" | "inStore" | "into" | "maps" | "requiredChampion" | "sanitizedDescription" | "specialRecipe" | "stacks" | "stats" | "tags" | "tree"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **[options]** *{Object}*
+    * **[options.id]** *{number | string}* Item ID to retrieve.
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.itemData]** *{Array | string}* Tags to return additional data. Only id, name, plaintext, group, and description are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
+        * Possible values: *"all" | "colloq" | "consumeOnFull" | "consumed" | "depth" | "effect" | "from" | "gold" | "hideFromAll" | "image" | "inStore" | "into" | "maps" | "requiredChampion" | "sanitizedDescription" | "specialRecipe" | "stacks" | "stats" | "tags"*
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
----------------------------------------
 
-<a name="getItemDataById" />
-### getItemDataById(opt, callback)
+<a name="getLanguageStringsStaticData" />
+### getLanguageStringsStaticData(options, callback)
 
-Retrieves item by its unique id.
+Gets static data of items.
 
 **Parameters**
 
-1. **opt {Object}**
-    * **opt.id {number | string}** - Item ID.
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.itemData] {Array | string}** Tags to return additional data. Only id, name, plaintext, group, and description are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
+1. **[options]** *{Object}*
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getLanguagesStaticData" />
+### getLanguagesStaticData(options, callback)
+
+Gets the list of languages.
+
+**Parameters**
+
+1. **[options]** *{Object}*
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getMapsStaticData" />
+### getMapsStaticData(options, callback)
+
+Gets the list of maps.
+
+**Parameters**
+
+1. **[options]** *{Object}*
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getMasteriesStaticData" />
+### getMasteriesStaticData(options, callback)
+
+Gets static data of masteries.
+
+**Parameters**
+
+1. **[options]** *{Object}*
+    * **[options.id]** *{number | string}* Mastery ID to retrieve.
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.masteryData]** *{Array | string}* Tags to return additional data. Only id, name, and description are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
+        * Possible values: *"all" | "image" | "masteryTree" | "prereq" | "ranks" | "sanitizeDescription"*
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getProfileIconsStaticData" />
+### getProfileIconsStaticData(options, callback)
+
+Gets the list of profile icons.
+
+**Parameters**
+
+1. **[options]** *{Object}*
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getRealmsStaticData" />
+### getRealmsStaticData(options, callback)
+
+Gets the list of realms.
+
+**Parameters**
+
+1. **[options]** *{Object}*
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getRunesStaticData" />
+### getRunesStaticData(options, callback)
+
+Gets static data of ruunes.
+
+**Parameters**
+
+1. **[options]** *{Object}*
+    * **[options.id]** *{number | string}* Mastery ID to retrieve.
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.runeData]** *{Array | string}* Tags to return additional data. Only id, name, rune, and description are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
         * Possible values: *"all" | "colloq" | "consumeOnFull" | "consumed" | "depth" | "from" | "gold" | "hideFromAll" | "image" | "inStore" | "into" | "maps" | "requiredChampion" | "sanitizedDescription" | "specialRecipe" | "stacks" | "stats" | "tags"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
----------------------------------------
 
-<a name="getLanguageStrings" />
-### getLanguageStrings(opt, callback)
+<a name="getSummonerSpellsStaticData" />
+### getSummonerSpellsStaticData(options, callback)
 
-Retrieve language strings data.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getLanguages" />
-### getLanguages(opt, callback)
-
-Retrieve supported languages data.
+Gets static data of champions.
 
 **Parameters**
 
-1. **[opt] {Object}**
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getMaps" />
-### getMaps(opt, callback)
-
-Retrieve map data.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getMasteryData" />
-### getMasteryData(opt, callback)
-
-Retrieves mastery list.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.masteryListData] {Array | string}** Tags to return additional data. Only type, version, data, id, name, and description are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
-        * Possible values: *"all" | "image" | "masteryTree" | "prereq" | "ranks" | "sanitizeDescription" | "tree"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getMasteryDataById" />
-### getMasteryDataById(opt, callback)
-
-Retrieves mastery item by its unique id.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.id {number | string}** - Mastery ID.
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.masteryData] {Array | string}** Tags to return additional data. Only id, name, and description are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
-        * Possible values: *"all" | "image" | "masteryTree" | "prereq" | "ranks" | "sanitizedDescription"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getRealms" />
-### getRealms(opt, callback)
-
-Retrieve realm data.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getRuneData" />
-### getRuneData(opt, callback)
-
-Retrieves rune list.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.runeListData] {Array | string}** Tags to return additional data. Only type, version, data, id, name, rune, and description are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
-        * Possible values: *"all" | "basic" | "colloq" | "consumeOnFull" | "consumed" | "depth" | "from" | "gold" | "hideFromAll" | "image" | "inStore" | "into" | "maps" | "requiredChampion" | "sanitizedDescription" | "specialRecipe" | "stacks" | "stats" | "tags"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getRuneDataById" />
-### getRuneDataById(opt, callback)
-
-Retrieves rune by its unique id.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.id {number | string}** - Rune ID.
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.runeData] {Array | string}** Tags to return additional data. Only id, name, rune, and description are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
-        * Possible values: *"all" | "colloq" | "consumeOnFull" | "consumed" | "depth" | "from" | "gold" | "hideFromAll" | "image" | "inStore" | "into" | "maps" | "requiredChampion" | "sanitizedDescription" | "specialRecipe" | "stacks" | "stats" | "tags"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getSummonerSpellData" />
-### getSummonerSpellData(opt, callback)
-
-Retrieves summoner spell list.
-
-**Parameters**
-
-1. **[opt] {Object}**
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.dataById] {boolean}** If specified as true, the returned data map will use the spells' Id as the keys. If not specified or specified as false, the returned data map will use the spells' keys instead.
-    * **[opt.spellData] {Array | string}** Tags to return additional data. Only type, version, data, id, key, name, description, and summonerLevel are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
+1. **[options]** *{Object}*
+    * **[options.id]** *{number | string}* SummonerSpell ID to retrieve.
+    * **[options.locale]** *{string}* Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
+    * **[options.version]** *{string}* Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
+    * **[options.dataById]** *{boolean}* If specified, the returned data map will use the champions' Id as the keys. If not specified or specified as false, the returned data map will use the champions' keys instead.
+    * **[options.spellData]** *{Array | string}* Tags to return additional data. Only type, version, data, id, key, name, description, and summonerLevel are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
         * Possible values: *"all" | "cooldown" | "cooldownBurn" | "cost" | "costBurn" | "costType" | "effect" | "effectBurn" | "image" | "key" | "leveltip" | "maxrank" | "modes" | "range" | "rangeBurn" | "resource" | "sanitizedDescription" | "sanitizedTooltip" | "tooltip" | "vars"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
----------------------------------------
 
-<a name="getSummonerSpellDataById" />
-### getSummonerSpellDataById(opt, callback)
+<a name="getVersionsStaticData" />
+### getVersionsStaticData(options, callback)
 
-Retrieves summoner spell by its unique id.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.id {number | string}** - Summoner spell ID.
-    * **[opt.locale] {string}** Locale code for returned data (e.g., en_US, es_ES). If not specified, the default locale for the region is used.
-    * **[opt.version] {string}** Data dragon version for returned data. If not specified, the latest version for the region is used. List of valid versions can be obtained from the /versions endpoint.
-    * **[opt.spellData] {Array | string}** Tags to return additional data. Only id, key, name, description, and summonerLevel are returned by default if this parameter isn't specified. To return all additional data, use the tag 'all'.
-        * Possible values: *"all" | "cooldown" | "cooldownBurn" | "cost" | "costBurn" | "costType" | "effect" | "effectBurn" | "image" | "key" | "leveltip" | "maxrank" | "modes" | "range" | "rangeBurn" | "resource" | "sanitizedDescription" | "sanitizedTooltip" | "tooltip" | "vars"*
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getVersions" />
-### getVersions(opt, callback)
-
-Retrieve realm data.
+Gets the list of realms.
 
 **Parameters**
 
-1. **[opt] {Object}**
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **[options]** *{Object}*
+    * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+    * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
 <a name="getStatus" />
-### getStatus(callback)
+### getStatus(options, callback)
 
-Get shard list.
+Get League of Legends status.
 
 **Parameters**
 
-1. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
 ---------------------------------------
 
-<a name="getMatchById" />
-### getMatchById(opt, callback)
+<a name="getSummoner" />
+### getSummoner(options, callback)
 
-Retrieve match by match ID.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.id {number | string}** - The ID of the match.
-    * **[opt.includeTimeline] {boolean}** Flag indicating whether or not to include match timeline data.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getMatchListByAccountId" />
-### getMatchListByAccountId(opt, callback)
-
-Retrieve match history by account id.
+Gets summoner based on id, accountId or name.
 
 **Parameters**
 
-1. **opt {Object}**
-    * **opt.id {number | string}** - The account id of the summoner.
-    * **[opt.championId] {Array | number | string}** Comma-separated list of champion Id to use for fetching games.
-    * **[opt.rankedQueues] {Array | string}** Comma-separated list of ranked queue types to use for fetching games. Non-ranked queue types will be ignored.
-		* Possible values: *"RANKED_SOLO_5x5" | "RANKED_SOLO_3x3" | "RANKED_SOLO_5x5"*
-    * **[opt.beginTime] {number | string}** The begin time to use for fetching games specified as epoch milliseconds.
-    * **[opt.endTime] {number | string}** The end time to use for fetching games specified as epoch milliseconds.
-    * **[opt.beginIndex] {number | string}** The begin index to use for fetching games.
-    * **[opt.endIndex] {number | string}** The end index to use for fetching games.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **[options.id]** *{number | string}* The ID of the summoner.
+ * **[options.summonerId]** *{number | string}* The ID of the summoner.
+ * **[options.accountId]** *{number | string}* The account ID of the summoner.
+ * **[options.name]** *{string}* The name of the summoner.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
----------------------------------------
 
-<a name="getSummonersByName" />
-### getSummonersByName(opt, callback)
+<a name="getSummonerActiveGame" />
+### getSummonerActiveGame(options, callback)
 
-Get summoner objects mapped by standardized summoner name for a given list of summoner Name.
+Get current game information for the given summoner ID.
 
 **Parameters**
 
-1. **opt {Object}**
-    * **opt.Name {Array | string}** - Comma-separated list of summoner Name or standardized summoner Name associated with summoners to retrieve. Maximum allowed at once is 40.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **options.summonerId** *{number | string}* The ID of the summoner.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
----------------------------------------
 
-<a name="getSummonerByAccountId" />
-### getSummonerByAccountId(opt, callback)
+<a name="getSummonerChampionMastery" />
+### getSummonerChampionMastery(options, callback)
 
-Get summoner objects mapped by account id for a given list of summoner Id.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.Name {Array | number | string}** - Comma-separated list of account Id associated with summoners to retrieve. Maximum allowed at once is 40.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getMasteriesBySummonerId" />
-### getMasteriesBySummonerId(opt, callback)
-
-Get mastery pages mapped by summoner ID for a given list of summoner Id.
+Get champion mastery entries sorted by number of champion points descending.
 
 **Parameters**
 
-1. **opt {Object}**
-    * **opt.Id {Array | number | string}** - Comma-separated list of summoner Id associated with masteries to retrieve. Maximum allowed at once is 40.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **options.summonerId** *{number | string}* Summoner ID associated with the player.
+ * **[options.championId]** *{number | string}* Champion ID to retrieve Champion Mastery for.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
 
----------------------------------------
 
-<a name="getSummonerNameById" />
-### getSummonerNameById(opt, callback)
+<a name="getSummonerChampionMasteryScore" />
+### getSummonerChampionMasteryScore(options, callback)
 
-Get summoner Name mapped by summoner ID for a given list of summoner Id.
-
-**Parameters**
-
-1. **opt {Object}**
-    * **opt.Id {Array | number | string}** - Comma-separated list of summoner Id associated with summoner Name to retrieve. Maximum allowed at once is 40.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
-
----------------------------------------
-
-<a name="getRunesBySummonerId" />
-### getRunesBySummonerId(opt, callback)
-
-Get rune pages mapped by summoner ID for a given list of summoner Id.
+Get a player's total champion mastery score, which is the sum of individual champion mastery levels.
 
 **Parameters**
 
-1. **opt {Object}**
-    * **opt.Id {Array | number | string}** - Comma-separated list of summoner Id associated with runes to retrieve. Maximum allowed at once is 40.
-    * **[opt.region] {string}** Optional region to be used instead of the API's region to retrieve data.
-    * **[opt.apiKey] {string}** Optional key to be used instead of the API's key to retrieve data.
-2. **[callback] {Function}** Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+1. **options** *{Object}*
+ * **options.summonerId** *{number | string}* Summoner ID associated with the player.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getSummonerLeagues" />
+### getSummonerLeagues(options, callback)
+
+Get leagues in all queues for a given summoner ID.
+
+**Parameters**
+
+1. **options** *{Object}*
+ * **options.summonerId** *{number | string}* Summoner ID associated with the player.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getSummonerLeaguePositions" />
+### getSummonerLeaguePositions(options, callback)
+
+Get league positions in all queues for a given summoner ID.
+
+**Parameters**
+
+1. **options** *{Object}*
+ * **options.summonerId** *{number | string}* Summoner ID associated with the player.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getSummonerMasteries" />
+### getSummonerMasteries(options, callback)
+
+Get mastery pages for a given summoner ID.
+
+**Parameters**
+
+1. **options** *{Object}*
+ * **options.summonerId** *{number | string}* Summoner ID associated with the player.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
+
+
+<a name="getSummonerRunes" />
+### getSummonerRunes(options, callback)
+
+Get rune pages for a given summoner ID.
+
+**Parameters**
+
+1. **options** *{Object}*
+ * **options.summonerId** *{number | string}* Summoner ID associated with the player.
+ * **[options.region]** *{string}* Optional region to be used instead of the API's region to retrieve data.
+ * **[options.apiKey]** *{string}* Optional key to be used instead of the API's key to retrieve data.
+2. **[callback]** *{Function}* Optional function to be called after the server's response is received, with `(error, data)` as parameters.
