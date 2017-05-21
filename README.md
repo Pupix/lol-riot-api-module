@@ -25,7 +25,7 @@ const api = new API({
 
     const options = { name: 'Pupix' };
 
-    api.getSummonerByName(options, (err, data) => {
+    api.getSummoner(options, (err, data) => {
         console.log(data);
     });
     //=> {
@@ -42,7 +42,7 @@ const api = new API({
 
     const options = { name: 'Pupix' };
 
-    api.getSummonerByName(options).then(data => {
+    api.getSummoner(options).then(data => {
         console.log(data);
     });
     //=> {
