@@ -128,6 +128,7 @@ Whenever possible, if a configuration *object* (referred as `options` in the doc
 ---------------------------------------
 
 <a name="getAccountMatchlist" />
+
 ### getAccountMatchlist(options, callback)
 
 Get matchlist for ranked games played on given account ID and platform ID and filtered using given filter parameters, if any.
@@ -149,6 +150,7 @@ Get matchlist for ranked games played on given account ID and platform ID and fi
 
 
 <a name="getAccountRecentMatchlist" />
+
 ### getAccountRecentMatchlist(options, callback)
 
 Get matchlist for last 20 matches played on given account ID.
@@ -164,6 +166,7 @@ Get matchlist for last 20 matches played on given account ID.
 ---------------------------------------
 
 <a name="getChampionsStatus" />
+
 ### getChampionsStatus(options, callback)
 
 Gets the status of champions.
@@ -180,6 +183,7 @@ Gets the status of champions.
 ---------------------------------------
 
 <a name="getFeaturedGames" />
+
 ### getFeaturedGames(options, callback)
 
 Get list of featured games.
@@ -194,6 +198,7 @@ Get list of featured games.
 ---------------------------------------
 
 <a name="getChallengerLeague" />
+
 ### getChallengerLeague(options, callback)
 
 Get the challenger league for a given queue.
@@ -209,6 +214,7 @@ Get the challenger league for a given queue.
 
 
 <a name="getMasterLeague" />
+
 ### getMasterLeague(options, callback)
 
 Get the master league for a given queue.
@@ -225,6 +231,7 @@ Get the master league for a given queue.
 ---------------------------------------
 
 <a name="getMatch" />
+
 ### getMatch(options, callback)
 
 Get match by match ID.
@@ -239,6 +246,7 @@ Get match by match ID.
 
 
 <a name="getMatchTimeline" />
+
 ### getMatchTimeline(options, callback)
 
 Get match by match ID.
@@ -254,6 +262,7 @@ Get match by match ID.
 ---------------------------------------
 
 <a name="getChampionsStaticData" />
+
 ### getChampionsStaticData(options, callback)
 
 Gets static data of champions.
@@ -273,6 +282,7 @@ Gets static data of champions.
 
 
 <a name="getItemsStaticData" />
+
 ### getItemsStaticData(options, callback)
 
 Gets static data of items.
@@ -291,6 +301,7 @@ Gets static data of items.
 
 
 <a name="getLanguageStringsStaticData" />
+
 ### getLanguageStringsStaticData(options, callback)
 
 Gets static data of items.
@@ -306,6 +317,7 @@ Gets static data of items.
 
 
 <a name="getLanguagesStaticData" />
+
 ### getLanguagesStaticData(options, callback)
 
 Gets the list of languages.
@@ -321,6 +333,7 @@ Gets the list of languages.
 
 
 <a name="getMapsStaticData" />
+
 ### getMapsStaticData(options, callback)
 
 Gets the list of maps.
@@ -336,6 +349,7 @@ Gets the list of maps.
 
 
 <a name="getMasteriesStaticData" />
+
 ### getMasteriesStaticData(options, callback)
 
 Gets static data of masteries.
@@ -354,6 +368,7 @@ Gets static data of masteries.
 
 
 <a name="getProfileIconsStaticData" />
+
 ### getProfileIconsStaticData(options, callback)
 
 Gets the list of profile icons.
@@ -369,6 +384,7 @@ Gets the list of profile icons.
 
 
 <a name="getRealmsStaticData" />
+
 ### getRealmsStaticData(options, callback)
 
 Gets the list of realms.
@@ -384,6 +400,7 @@ Gets the list of realms.
 
 
 <a name="getRunesStaticData" />
+
 ### getRunesStaticData(options, callback)
 
 Gets static data of ruunes.
@@ -402,6 +419,7 @@ Gets static data of ruunes.
 
 
 <a name="getSummonerSpellsStaticData" />
+
 ### getSummonerSpellsStaticData(options, callback)
 
 Gets static data of champions.
@@ -421,6 +439,7 @@ Gets static data of champions.
 
 
 <a name="getVersionsStaticData" />
+
 ### getVersionsStaticData(options, callback)
 
 Gets the list of realms.
@@ -435,6 +454,7 @@ Gets the list of realms.
 ---------------------------------------
 
 <a name="getStatus" />
+
 ### getStatus(options, callback)
 
 Get League of Legends status.
@@ -449,6 +469,7 @@ Get League of Legends status.
 ---------------------------------------
 
 <a name="getSummoner" />
+
 ### getSummoner(options, callback)
 
 Gets summoner based on id, accountId or name.
@@ -466,6 +487,7 @@ Gets summoner based on id, accountId or name.
 
 
 <a name="getSummonerActiveGame" />
+
 ### getSummonerActiveGame(options, callback)
 
 Get current game information for the given summoner ID.
@@ -480,6 +502,7 @@ Get current game information for the given summoner ID.
 
 
 <a name="getSummonerChampionMastery" />
+
 ### getSummonerChampionMastery(options, callback)
 
 Get champion mastery entries sorted by number of champion points descending.
@@ -495,6 +518,7 @@ Get champion mastery entries sorted by number of champion points descending.
 
 
 <a name="getSummonerChampionMasteryScore" />
+
 ### getSummonerChampionMasteryScore(options, callback)
 
 Get a player's total champion mastery score, which is the sum of individual champion mastery levels.
@@ -509,6 +533,7 @@ Get a player's total champion mastery score, which is the sum of individual cham
 
 
 <a name="getSummonerLeagues" />
+
 ### getSummonerLeagues(options, callback)
 
 Get leagues in all queues for a given summoner ID.
@@ -523,6 +548,7 @@ Get leagues in all queues for a given summoner ID.
 
 
 <a name="getSummonerLeaguePositions" />
+
 ### getSummonerLeaguePositions(options, callback)
 
 Get league positions in all queues for a given summoner ID.
@@ -537,6 +563,7 @@ Get league positions in all queues for a given summoner ID.
 
 
 <a name="getSummonerMasteries" />
+
 ### getSummonerMasteries(options, callback)
 
 Get mastery pages for a given summoner ID.
@@ -551,6 +578,7 @@ Get mastery pages for a given summoner ID.
 
 
 <a name="getSummonerRunes" />
+
 ### getSummonerRunes(options, callback)
 
 Get rune pages for a given summoner ID.
